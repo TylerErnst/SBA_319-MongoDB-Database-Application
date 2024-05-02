@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style.css"/>
+  </head>
+  <body>
+    <ul>
+      <% posts.forEach((post) => { %>
+      <li>
+        <a href=<%=`/api/posts/${post.id}`%>><%=post.title%></a> 
+        <!-- <p><%=post.id%></p> -->
+      </li>
+      <% })%>
+    </ul> 
+
+    <!-- New post -->
+    <!-- User -->
+
+    <!-- Title -->
+
+    <!-- Content -->
+
+    <!-- Submit Button -->
+    <!-- <form action="/api/posts" method="post"> -->
+      <form id="postForm">
+        <input type="text" name="userId" placeholder="Enter your ID" id="userId"/>
+        <input type="text" name="title" placeholder="Title" id="title"/>
+        <input type="text" name="content" placeholder="Content" id="content"/>
+        <input type="submit" value="Create" id="post-btn"/>
+    </form>
+
+    <script>
+      document.getElementById('postForm').addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Get form data
+          const formData = {
+              userId: document.getElementById('userId').value,
+              title: document.getElementById('title').value,
+              content: document.getElementById('content').value
+          };
+
+          // Send POST request using fetch
+          fetch('/api/posts', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formData)
+          })
+          .then(response => response.json())
+          .then(data => {
+              console.log('Response:', data);
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              // Handle errors here
+          });
+      });
+  </script>
+  </body>
+</html>
