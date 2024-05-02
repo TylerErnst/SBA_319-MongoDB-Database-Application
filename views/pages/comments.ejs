@@ -4,13 +4,14 @@
     <link rel="stylesheet" href="/style.css"/>
   </head>
   <body>
-    <h1><%post.title%></h1>
-    <h3><%post.body%></h3>
+    <h1><%=post.title%></h1>
+    <h3><%-post.body%></h3>
     <ul>
-      <% comments.forEach((comment) => { %>
+      <% post.comments.forEach((comment) => { %>
+        <%console.log(comment.author, typeof comment.author)%>
       <li>
-        <h5><%comment.body%></h5> 
-        <h6><%comment.author%></h6>
+        <h5><%=comment.body%></h5> 
+        <h6><%=comment.author%></h6>
       </li>
       <% })%>
     </ul> 

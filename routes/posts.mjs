@@ -1,18 +1,14 @@
 // const express = require("express");
-import express from 'express';
+import express from "express";
 const router = express.Router();
 
 import db from "../db/conn.mjs";
-import { ObjectId } from 'mongodb';
-
+import { ObjectId } from "mongodb";
 
 // const posts = require("../data/posts.mjs");
 import posts from "../data/posts.mjs";
 
 const collection = await db.collection("posts");
-
-
-
 
 router.use(express.json());
 
@@ -28,7 +24,7 @@ router
     // Happens in server.mjs
   })
   .post((req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     if (req.body.userId && req.body.title && req.body.content) {
       const post = {
         id: posts[posts.length - 1].id + 1,
@@ -50,12 +46,16 @@ router
     // else next();
     let id = req.params.id;
     const post = await collection.findOne({ _id: new ObjectId(id) });
-    console.log(post);
-if (post) {
-    res.json(post);
-} else {
-    console.log('Document not found');
-}
+    console.log('post');
+    if (post) {
+      // res.json(post);
+      
+      let result = await collection.find().limit(10).toArray()
+      // console.log("posts", result)
+      res.render("pages/comments", { post: post });
+    } else {
+      console.log("Document not found");
+    }
   })
   .patch((req, res, next) => {
     const post = posts.find((p, i) => {
