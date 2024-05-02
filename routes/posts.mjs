@@ -3,10 +3,13 @@ import express from 'express';
 const router = express.Router();
 
 import db from "../db/conn.mjs";
+import { MongoClient } from 'mongodb';
 
 
 // const posts = require("../data/posts.mjs");
 import posts from "../data/posts.mjs";
+
+const collection = await db.collection("posts");
 
 
 
@@ -22,7 +25,9 @@ router.use(express.json());
 router
   .route("/")
   .get((req, res) => {
-    res.json(posts);
+    // res.json(posts);
+    // res.json('hi')
+    // res.json(collection);
   })
   .post((req, res) => {
     console.log(req.body)

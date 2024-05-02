@@ -1,7 +1,10 @@
 // const express = require("express");
 import express from 'express';
 const app = express();
-// import db from "./db/conn.mjs";
+
+import db from "./db/conn.mjs";
+import { MongoClient } from 'mongodb';
+
 import dotenv from 'dotenv';
 dotenv.config();
 const port = process.env.PORT;
@@ -63,9 +66,15 @@ app.get("/about", (req, res) => {
   console.log(user);
 });
 //posts.ejs template
-app.get("/posts", (req, res) => {
+app.get("/posts", async (req, res) => {
   // console.log("posts", postData)
-  res.render("pages/posts", { posts: postData });
+  // res.render("pages/posts", { posts: postData });
+
+
+  const collection = await db.collection("posts");
+  let result = await collection.find().limit(10).toArray()
+  console.log("posts", result)
+  res.render("pages/posts", { posts: result });
 });
 
 

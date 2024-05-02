@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const connectionString = process.env.ATLAS_URI || "";
-console.log(connectionString)
 const client = new MongoClient(connectionString);
 
 let conn;
@@ -15,11 +14,11 @@ try{
     console.log(err)
 }
 
-let db = conn.db("sample_training");
+let db = conn.db("test");
 
 // Create indexes
 (async () => {
-    const collection = await db.collection("grades");
+    const collection = await db.collection("posts");
     
     // Create a single-field index on class_id.
     await collection.createIndex({ class_id: 1 });
