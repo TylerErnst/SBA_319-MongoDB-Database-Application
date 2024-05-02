@@ -7,6 +7,7 @@
     <ul>
       <% posts.forEach((post) => { %>
       <li>
+        <%post.id = post._id.toString()%>
         <a href=<%=`/api/posts/${post.id}`%>><%=post.title%></a> 
         <!-- <p><%=post.id%></p> -->
       </li>

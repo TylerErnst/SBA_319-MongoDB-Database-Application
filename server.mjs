@@ -73,7 +73,7 @@ app.get("/posts", async (req, res) => {
 
   const collection = await db.collection("posts");
   let result = await collection.find().limit(10).toArray()
-  console.log("posts", result)
+  // console.log("posts", result)
   res.render("pages/posts", { posts: result });
 });
 
