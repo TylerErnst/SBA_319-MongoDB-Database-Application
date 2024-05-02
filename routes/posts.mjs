@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 import db from "../db/conn.mjs";
-import { MongoClient } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 
 // const posts = require("../data/posts.mjs");
@@ -25,9 +25,7 @@ router.use(express.json());
 router
   .route("/")
   .get((req, res) => {
-    // res.json(posts);
-    // res.json('hi')
-    // res.json(collection);
+    // Happens in server.mjs
   })
   .post((req, res) => {
     console.log(req.body)
@@ -46,10 +44,18 @@ router
 
 router
   .route("/:id")
-  .get((req, res, next) => {
-    const post = posts.find((p) => p.id == req.params.id);
-    if (post) res.json(post);
-    else next();
+  .get(async (req, res, next) => {
+    // const post = posts.find((p) => p.id == req.params.id);
+    // if (post) res.json(post);
+    // else next();
+    let id = req.params.id;
+    const post = await collection.findOne({ _id: new ObjectId(id) });
+    console.log(id);
+if (post) {
+    res.json(post);
+} else {
+    console.log('Document not found');
+}
   })
   .patch((req, res, next) => {
     const post = posts.find((p, i) => {
