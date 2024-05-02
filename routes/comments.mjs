@@ -1,7 +1,10 @@
-const express = require("express");
+// const express = require("express");
+import express from 'express';
 const router = express.Router();
 
-const comments = require("../data/comments");
+// const comments = require("../data/comments.mjs");
+import comments from "../data/comments.mjs";
+
 
 router
   .route("/")
@@ -83,4 +86,4 @@ router
     res.sendStatus(204);
   });
 
-module.exports = router;
+  export default router;

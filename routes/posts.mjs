@@ -1,7 +1,15 @@
-const express = require("express");
+// const express = require("express");
+import express from 'express';
 const router = express.Router();
 
-const posts = require("../data/posts");
+import db from "../db/conn.mjs";
+
+
+// const posts = require("../data/posts.mjs");
+import posts from "../data/posts.mjs";
+
+
+
 
 router.use(express.json());
 
@@ -108,4 +116,4 @@ router.get("/:id/comments", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

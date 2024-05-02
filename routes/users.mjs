@@ -1,8 +1,12 @@
-const express = require("express");
+// const express = require("express");
+import express from 'express';
 const router = express.Router();
 
-const users = require("../data/users");
-const posts = require("../data/posts");
+// const users = require("../data/users.mjs");
+// const posts = require("../data/posts.mjs");
+import users from "../data/users.mjs";
+import posts from "../data/posts.mjs";
+
 
 // This is the same code as the previous example!
 // We've simply changed "app" to "router" and
@@ -93,4 +97,4 @@ router.get("/:id/comments", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

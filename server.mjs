@@ -1,12 +1,21 @@
-const express = require("express");
+// const express = require("express");
+import express from 'express';
 const app = express();
-const port = 3000;
+// import db from "./db/conn.mjs";
+import dotenv from 'dotenv';
+dotenv.config();
+const port = process.env.PORT;
 
-const users = require("./routes/users");
-const posts = require("./routes/posts");
-const postData = require("./data/posts");
-const comments = require("./routes/comments");
-const error = require("./utilities/error");
+// const users = require("./routes/users.mjs");
+// const posts = require("./routes/posts");
+// const postData = require("./data/posts");
+// const comments = require("./routes/comments.mjs");
+// const error = require("./utilities/error");
+import users from "./routes/users.mjs";
+import posts from "./routes/posts.mjs";
+import postData from "./data/posts.mjs";
+import comments from "./routes/comments.mjs";
+import error from "./utilities/error.mjs";
 
 app.use("/api/users", users);
 app.use("/api/posts", posts);
