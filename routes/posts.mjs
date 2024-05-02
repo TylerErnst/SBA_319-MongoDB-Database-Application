@@ -50,7 +50,7 @@ router
     // else next();
     let id = req.params.id;
     const post = await collection.findOne({ _id: new ObjectId(id) });
-    console.log(id);
+    console.log(post);
 if (post) {
     res.json(post);
 } else {
