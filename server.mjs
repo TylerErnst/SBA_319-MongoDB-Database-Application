@@ -73,7 +73,8 @@ app.get("/posts", async (req, res) => {
 });
 
 
-// Route handler for testing validation
+// Route handlers for testing validation
+//Mongoose
 app.post("/test-validation", async (req, res) => {
   try {
       // Attempt to insert an invalid document using the Post model
@@ -89,6 +90,24 @@ app.post("/test-validation", async (req, res) => {
   } catch (error) {
       // If insertion fails due to validation error, display the error
       res.status(400).send(error.message);
+  }
+});
+//MongoDB
+app.post("/test-validation2", async (req, res) => {
+  try {
+    // Attempt to insert a document that violates validation rules
+    await db.collection("posts").insertOne({
+      author: "", // Empty string for author
+      title: 5, // Non-string value for title
+      body: "", // Empty string for body
+      date: new Date() // Normal date
+    });
+
+    // If insertion succeeds, something is wrong
+    res.status(500).send("Document was inserted despite validation rules");
+  } catch (error) {
+    // If insertion fails due to validation error, display the error
+    res.status(400).send(error.message);
   }
 });
 
