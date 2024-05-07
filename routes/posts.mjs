@@ -23,18 +23,20 @@ router
   .get((req, res) => {
     // Happens in server.mjs
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
     console.log(req.body);
-    if (req.body.userId && req.body.title && req.body.content) {
+    if (req.body.author && req.body.title && req.body.body) {
       const post = {
-        id: posts[posts.length - 1].id + 1,
-        userId: req.body.userId,
+        // id: posts[posts.length - 1].id + 1,
+        author: req.body.author,
         title: req.body.title,
-        content: req.body.content,
+        body: req.body.body,
       };
 
-      posts.push(post);
-      res.json(posts[posts.length - 1]);
+      // posts.push(post);
+      // res.json(posts[posts.length - 1]);
+
+      await collection.insertOne(post);
     } else res.json({ error: "Insufficient Data" });
   });
 
@@ -70,16 +72,33 @@ router
     if (post) res.json(post);
     else next();
   })
-  .delete((req, res, next) => {
-    const post = posts.find((p, i) => {
-      if (p.id == req.params.id) {
-        posts.splice(i, 1);
-        return true;
-      }
-    });
+  // .delete((req, res, next) => {
+  //   const post = posts.find((p, i) => {
+  //     if (p.id == req.params.id) {
+  //       posts.splice(i, 1);
+  //       return true;
+  //     }
+  //   });
 
-    if (post) res.json(post);
-    else next();
+  //   if (post) res.json(post);
+  //   else next();
+  // });
+  .delete(async (req, res) => {
+    console.log(req.body);
+    const postId = req.params.id;
+    console.log(postId);
+
+    try {
+        const result = await collection.deleteOne({ _id: new ObjectId(postId) });
+        if (result.deletedCount === 1) {
+            res.json({ success: true, message: 'Post deleted successfully' });
+        } else {
+            res.status(404).json({ success: false, message: 'Post not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
   });
 
 router.get("/userId/:userId", (req, res) => {

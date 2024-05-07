@@ -28,6 +28,7 @@ app.set("view engine", "ejs");
 
 // serve static files from the styles directory
 app.use(express.static("./styles"));
+app.use(express.static("./images"))
 
 
 // Parsing Middleware
@@ -72,7 +73,7 @@ app.get("/posts", async (req, res) => {
 
 
   const collection = await db.collection("posts");
-  let result = await collection.find().limit(10).toArray()
+  let result = await collection.find().sort({ "date": 1 }).limit(10).toArray()
   // console.log("posts", result)
   res.render("pages/posts", { posts: result });
 });

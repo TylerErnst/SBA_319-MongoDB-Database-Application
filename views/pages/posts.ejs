@@ -6,10 +6,13 @@
   <body>
     <ul>
       <% posts.forEach((post) => { %>
-      <li>
+      <li class="posts">
         <%post.id = post._id.toString()%>
         <a href=<%=`/api/posts/${post.id}`%>><%=post.title%></a> 
         <!-- <p><%=post.id%></p> -->
+        <button class="delete-btn" data-id="<%= post.id %>">
+          <img src="/trash-can.png" alt="Delete" />
+        </button>
       </li>
       <% })%>
     </ul> 
@@ -31,14 +34,19 @@
     </form>
 
     <script>
-      document.getElementById('postForm').addEventListener('submit', function(event) {
+      document.getElementById('postForm').addEventListener('submit', async function(event) {
           event.preventDefault(); // Prevent default form submission
 
           // Get form data
+          // const formData = {
+          //     userId: document.getElementById('userId').value,
+          //     title: document.getElementById('title').value,
+          //     content: document.getElementById('content').value
+          // };
           const formData = {
-              userId: document.getElementById('userId').value,
+              author: document.getElementById('userId').value,
               title: document.getElementById('title').value,
-              content: document.getElementById('content').value
+              body: document.getElementById('content').value
           };
 
           // Send POST request using fetch
@@ -58,6 +66,43 @@
               // Handle errors here
           });
       });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async function(event) {
+                event.preventDefault();
+
+                const postId = this.getAttribute('data-id');
+
+                console.log('hi', postId);
+
+                // Send DELETE request to delete the post
+                fetch(`/api/posts/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Post deleted successfully:', data);
+                    // Optionally, remove the deleted post from the UI
+                    this.parentNode.remove();
+                })
+                .catch(error => {
+                    console.error('Error deleting post:', error);
+                    // Handle errors here
+                });
+            });
+        });
   </script>
   </body>
 </html>
+
+<!-- try {
+  await collection.insertOne(formData);
+  console.log('Document inserted successfully');
+} catch (error) {
+    console.error('Error inserting document:', error);
+} finally {
+    await client.close();
+} -->
