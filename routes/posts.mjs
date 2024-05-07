@@ -61,19 +61,6 @@ router
       console.log("Document not found");
     }
   })
-  // .patch((req, res, next) => {
-  //   const post = posts.find((p, i) => {
-  //     if (p.id == req.params.id) {
-  //       for (const key in req.body) {
-  //         posts[i][key] = req.body[key];
-  //       }
-  //       return true;
-  //     }
-  //   });
-
-  //   if (post) res.json(post);
-  //   else next();
-  // })
   .patch(async (req, res) => {
     const postId = req.params.id;
     const newTitle = req.body.title;
@@ -96,17 +83,6 @@ router
         .json({ success: false, message: "Internal server error" });
     }
   })
-  // .delete((req, res, next) => {
-  //   const post = posts.find((p, i) => {
-  //     if (p.id == req.params.id) {
-  //       posts.splice(i, 1);
-  //       return true;
-  //     }
-  //   });
-
-  //   if (post) res.json(post);
-  //   else next();
-  // });
   .delete(async (req, res) => {
     console.log(req.body);
     const postId = req.params.id;

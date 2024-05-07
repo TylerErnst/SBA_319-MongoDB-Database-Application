@@ -10,11 +10,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const port = process.env.PORT;
 
-// const users = require("./routes/users.mjs");
-// const posts = require("./routes/posts");
-// const postData = require("./data/posts");
-// const comments = require("./routes/comments.mjs");
-// const error = require("./utilities/error");
+
 import users from "./routes/users.mjs";
 import posts from "./routes/posts.mjs";
 import postData from "./data/posts.mjs";
@@ -55,9 +51,6 @@ app.get("/", (req, res) => {
   const menu = [
     { title: "Home", href: "http://localhost:3000/" },
     { title: "Posts", href: "http://localhost:3000/posts" },
-    //{ title: "Comments", href: "http://localhost:3000/comments" },
-    //{ title: "About", href: "http://localhost:3000/about" },
-    //{ title: "Login", href: "http://localhost:3000/login" },
   ];
   res.render("pages/index", { links: menu });
 });
@@ -79,19 +72,6 @@ app.get("/posts", async (req, res) => {
   res.render("pages/posts", { posts: result });
 });
 
-
-
-// app.get("/login", (req, res) => {
-//   res.render("pages/login");
-// });
-
-// app.post("/login", (req, res) => {
-//   console.log('success');
-// });
-
-// app.get("/image", (req, res) => {
-//   res.render("./image", "dog.jpg");
-// });
 
 // Route handler for testing validation
 app.post("/test-validation", async (req, res) => {
