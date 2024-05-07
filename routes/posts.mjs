@@ -50,29 +50,51 @@ router
     // else next();
     let id = req.params.id;
     const post = await collection.findOne({ _id: new ObjectId(id) });
-    console.log('post');
+    console.log("post");
     if (post) {
       // res.json(post);
-      
-      let result = await collection.find().limit(10).toArray()
+
+      let result = await collection.find().limit(10).toArray();
       // console.log("posts", result)
       res.render("pages/comments", { post: post });
     } else {
       console.log("Document not found");
     }
   })
-  .patch((req, res, next) => {
-    const post = posts.find((p, i) => {
-      if (p.id == req.params.id) {
-        for (const key in req.body) {
-          posts[i][key] = req.body[key];
-        }
-        return true;
-      }
-    });
+  // .patch((req, res, next) => {
+  //   const post = posts.find((p, i) => {
+  //     if (p.id == req.params.id) {
+  //       for (const key in req.body) {
+  //         posts[i][key] = req.body[key];
+  //       }
+  //       return true;
+  //     }
+  //   });
 
-    if (post) res.json(post);
-    else next();
+  //   if (post) res.json(post);
+  //   else next();
+  // })
+  .patch(async (req, res) => {
+    const postId = req.params.id;
+    const newTitle = req.body.title;
+
+    try {
+      const result = await collection.updateOne(
+        { _id: new ObjectId(postId) },
+        { $set: { title: newTitle } }
+      );
+
+      if (result.modifiedCount === 1) {
+        res.json({ success: true, message: "Post title updated successfully" });
+      } else {
+        res.status(404).json({ success: false, message: "Post not found" });
+      }
+    } catch (error) {
+      console.error("Error updating post title:", error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
   })
   // .delete((req, res, next) => {
   //   const post = posts.find((p, i) => {
@@ -91,15 +113,17 @@ router
     console.log(postId);
 
     try {
-        const result = await collection.deleteOne({ _id: new ObjectId(postId) });
-        if (result.deletedCount === 1) {
-            res.json({ success: true, message: 'Post deleted successfully' });
-        } else {
-            res.status(404).json({ success: false, message: 'Post not found' });
-        }
+      const result = await collection.deleteOne({ _id: new ObjectId(postId) });
+      if (result.deletedCount === 1) {
+        res.json({ success: true, message: "Post deleted successfully" });
+      } else {
+        res.status(404).json({ success: false, message: "Post not found" });
+      }
     } catch (error) {
-        console.error('Error deleting post:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+      console.error("Error deleting post:", error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
     }
   });
 

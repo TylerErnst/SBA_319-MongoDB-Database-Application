@@ -20,4 +20,14 @@ body {
   a:hover {
     color: #009cdb;
   }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
+  button {
+    background-color: transparent;
+    border: 0px;
+  }
   
