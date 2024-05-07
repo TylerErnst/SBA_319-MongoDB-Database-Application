@@ -3,6 +3,7 @@ import express from 'express';
 const app = express();
 
 import db from "./db/conn.mjs";
+import { Validate } from "./db/conn.mjs"
 import { MongoClient } from 'mongodb';
 
 import dotenv from 'dotenv';
@@ -80,16 +81,35 @@ app.get("/posts", async (req, res) => {
 
 
 
-app.get("/login", (req, res) => {
-  res.render("pages/login");
-});
+// app.get("/login", (req, res) => {
+//   res.render("pages/login");
+// });
 
-app.post("/login", (req, res) => {
-  console.log('success');
-});
+// app.post("/login", (req, res) => {
+//   console.log('success');
+// });
 
-app.get("/image", (req, res) => {
-  res.render("./image", "dog.jpg");
+// app.get("/image", (req, res) => {
+//   res.render("./image", "dog.jpg");
+// });
+
+// Route handler for testing validation
+app.post("/test-validation", async (req, res) => {
+  try {
+      // Attempt to insert an invalid document using the Post model
+      await Validate.create({
+          author: "", // Empty string for author
+          title: 5, // Non-string value for title
+          body: "", // Empty string for body
+          date: new Date() // Normal date
+      });
+
+      // If insertion succeeds, something is wrong
+      res.status(500).send("Document was inserted despite validation rules");
+  } catch (error) {
+      // If insertion fails due to validation error, display the error
+      res.status(400).send(error.message);
+  }
 });
 
 

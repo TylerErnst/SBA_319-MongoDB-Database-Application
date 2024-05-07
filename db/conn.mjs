@@ -1,40 +1,47 @@
-// import express from 'express';
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const connectionString = process.env.ATLAS_URI || "";
-const client = new MongoClient(connectionString);
 
-let conn;
-try{
-    conn = await client.connect();
+// Connect to MongoDB using Mongoose
+mongoose.connect(connectionString)
+.then(() => {
     console.log('Connected to MongoDB');
-} catch(err) {
-    console.log(err)
-}
+})
+.catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+});
 
-let db = conn.db("test");
+const db = mongoose.connection;
 
-// Create indexes
-// (async () => {
-//     const collection = await db.collection("posts");
-    
-//     // Create a single-field index on class_id.
-//     await collection.createIndex({ class_id: 1 });
-  
-//     // Create a single-field index on learner_id.
-//     await collection.createIndex({ learner_id: 1 });
-  
-//     // Create a compound index on learner_id and class_id, in that order, both ascending.
-//     await collection.createIndex({ learner_id: 1, class_id: 1 });
-//   })();
-(async () => {
-    const collection = await db.collection("posts");
-    
-    // Create a single-field index on currentDate.
-    await collection.createIndex({ currentDate: 1 });
-  
-})();
+// Define the schema for the 'posts' collection with validation rules
+const postSchema = new mongoose.Schema({
+    body: {
+        type: String,
+        required: true,
+        minLength: 1 // Minimum length for body
+    },
+    author: {
+        type: String,
+        required: true,
+        minLength: 1 // Minimum length for author
+    },
+    title: {
+        type: String,
+        required: true,
+        minLength: 1 // Minimum length for title
+    },
+    date: {
+        type: Date,
+        required: true
+    }
+});
+
+// Define indexes directly in the schema
+postSchema.index({ currentDate: -1 });
+
+// Create a model based on the schema and export it
+export const Validate = mongoose.model('Post', postSchema);
 
 export default db;
