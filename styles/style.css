@@ -29,5 +29,37 @@ body {
   button {
     background-color: transparent;
     border: 0px;
+    float: right;
   }
   
+#postForm {
+    margin-bottom: 20px;
+}
+
+.form {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Apply alternating background colors and underlines to each post */
+#postList li:nth-child(even) {
+  background-color: lightgrey; 
+}
+#postList li:nth-child(odd) {
+  background-color: white; 
+}
+
+#postList li {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  padding: 0; 
+}
+

@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <ul>
+  <ul id="postList">
     <% posts.forEach((post)=> { %>
       <li class="posts">
         <%post.id=post._id.toString()%>
@@ -32,10 +32,10 @@
   <!-- Submit Button -->
   <!-- <form action="/api/posts" method="post"> -->
   <form id="postForm">
-    <input type="text" name="userId" placeholder="Enter your Name" id="userId" />
-    <input type="text" name="title" placeholder="Title" id="title" />
-    <input type="text" name="content" placeholder="Content" id="content" />
-    <input type="submit" value="Create" id="post-btn" />
+    <input type="text" name="userId" id="userId" class="form" placeholder="Enter your Name" />  
+    <input type="text" name="title" id="title" class="form" placeholder="Title" />  
+    <textarea name="content" id="content" class="form" placeholder="Content" rows="6"></textarea>
+    <input type="submit" value="Create Post" id="post-btn" />
   </form>
 
   <script>
