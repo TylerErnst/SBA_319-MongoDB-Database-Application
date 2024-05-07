@@ -17,17 +17,24 @@ try{
 let db = conn.db("test");
 
 // Create indexes
+// (async () => {
+//     const collection = await db.collection("posts");
+    
+//     // Create a single-field index on class_id.
+//     await collection.createIndex({ class_id: 1 });
+  
+//     // Create a single-field index on learner_id.
+//     await collection.createIndex({ learner_id: 1 });
+  
+//     // Create a compound index on learner_id and class_id, in that order, both ascending.
+//     await collection.createIndex({ learner_id: 1, class_id: 1 });
+//   })();
 (async () => {
     const collection = await db.collection("posts");
     
-    // Create a single-field index on class_id.
-    await collection.createIndex({ class_id: 1 });
+    // Create a single-field index on currentDate.
+    await collection.createIndex({ currentDate: 1 });
   
-    // Create a single-field index on learner_id.
-    await collection.createIndex({ learner_id: 1 });
-  
-    // Create a compound index on learner_id and class_id, in that order, both ascending.
-    await collection.createIndex({ learner_id: 1, class_id: 1 });
-  })();
+})();
 
 export default db;
