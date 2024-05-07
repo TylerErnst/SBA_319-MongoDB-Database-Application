@@ -1,15 +1,14 @@
 // const express = require("express");
-import express from 'express';
+import express from "express";
 const app = express();
 
 import db from "./db/conn.mjs";
-import { Validate } from "./db/conn.mjs"
-import { MongoClient } from 'mongodb';
+import { Validate } from "./db/conn.mjs";
+import { MongoClient } from "mongodb";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 const port = process.env.PORT;
-
 
 import users from "./routes/users.mjs";
 import posts from "./routes/posts.mjs";
@@ -25,8 +24,7 @@ app.set("view engine", "ejs");
 
 // serve static files from the styles directory
 app.use(express.static("./styles"));
-app.use(express.static("./images"))
-
+app.use(express.static("./images"));
 
 // Parsing Middleware
 app.use(express.json());
@@ -65,31 +63,29 @@ app.get("/posts", async (req, res) => {
   // console.log("posts", postData)
   // res.render("pages/posts", { posts: postData });
 
-
   const collection = await db.collection("posts");
-  let result = await collection.find().sort({ "date": -1 }).limit(10).toArray()
+  let result = await collection.find().sort({ date: -1 }).limit(10).toArray();
   // console.log("posts", result)
   res.render("pages/posts", { posts: result });
 });
-
 
 // Route handlers for testing validation
 //Mongoose
 app.post("/test-validation", async (req, res) => {
   try {
-      // Attempt to insert an invalid document using the Post model
-      await Validate.create({
-          author: "", // Empty string for author
-          title: 5, // Non-string value for title
-          body: "", // Empty string for body
-          date: new Date() // Normal date
-      });
+    // Attempt to insert an invalid document using the Post model
+    await Validate.create({
+      author: "", // Empty string for author
+      title: 5, // Non-string value for title
+      body: "", // Empty string for body
+      date: new Date(), // Normal date
+    });
 
-      // If insertion succeeds, something is wrong
-      res.status(500).send("Document was inserted despite validation rules");
+    // If insertion succeeds, something is wrong
+    res.status(500).send("Document was inserted despite validation rules");
   } catch (error) {
-      // If insertion fails due to validation error, display the error
-      res.status(400).send(error.message);
+    // If insertion fails due to validation error, display the error
+    res.status(400).send(error.message);
   }
 });
 //MongoDB
@@ -100,7 +96,7 @@ app.post("/test-validation2", async (req, res) => {
       author: "", // Empty string for author
       title: 5, // Non-string value for title
       body: "", // Empty string for body
-      date: new Date() // Normal date
+      date: new Date(), // Normal date
     });
 
     // If insertion succeeds, something is wrong
@@ -110,7 +106,6 @@ app.post("/test-validation2", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
-
 
 // Error-handling middleware.
 app.use((err, req, res, next) => {
