@@ -31,6 +31,8 @@ router
         author: req.body.author,
         title: req.body.title,
         body: req.body.body,
+        date: new Date(),
+        comments: [],
       };
 
       // posts.push(post);

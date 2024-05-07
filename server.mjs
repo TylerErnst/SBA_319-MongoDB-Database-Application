@@ -73,7 +73,7 @@ app.get("/posts", async (req, res) => {
 
 
   const collection = await db.collection("posts");
-  let result = await collection.find().sort({ "date": 1 }).limit(10).toArray()
+  let result = await collection.find().sort({ "date": -1 }).limit(10).toArray()
   // console.log("posts", result)
   res.render("pages/posts", { posts: result });
 });
